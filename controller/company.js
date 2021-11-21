@@ -41,10 +41,11 @@ async function getAllData(req,res){
 
 async function getOneData(req,res){
     let id=req.params.id;
+    var result="";
     let data=await companyRef.findOne({"id":id});
-    let data2=await companyCatRef.findOne({"id":data["category_id"]});
-
-    var result;
+    let data2=data==null?"":await companyCatRef.findOne({"id":data["category_id"]});
+    
+    
     //if category_field selected in query.field we will send the desire category data(implementation)
     if(req.query.field=="category_id"){
         
@@ -58,8 +59,11 @@ async function getOneData(req,res){
         res.status(200).json({"msg":"Success",
                                 "data":result,});
          res.end();
+    }else if(data==null){
+        res.status(200).json({"msg":"Invalid User Id"});
+         res.end();
     }else{
-        res.status(200).json({"msg":"Fail"});
+        res.status(200).json({"msg":"Fail"});//result willshow user invalid msg here
         res.end();
     }
     console.log("This is company only");
@@ -108,11 +112,11 @@ async function putData(req,res){
     let data=await companyRef.findOne({"id":id});
     if(data!=null){
         //UPDATING data category_id is asked in assignment here we can change title status and description as well
-        title==null?"":await companyRef.findOneAndUpdate({"id":id},{"title":title});
+        title==null?"":await companyRef.findOneAndUpdate({"id":id},{"title":title,"updated_at":Date.now()});
         
-        category_id==null?"":await companyRef.findOneAndUpdate({"id":id},{"category_id":category_id});
-        status==null?"":await companyRef.findOneAndUpdate({"id":id},{"status":status});
-        description==null?"":await companyRef.findOneAndUpdate({"id":id},{"description":description});
+        category_id==null?"":await companyRef.findOneAndUpdate({"id":id},{"category_id":category_id,"updated_at":Date.now()});
+        status==null?"":await companyRef.findOneAndUpdate({"id":id},{"status":status,"updated_at":Date.now()});
+        description==null?"":await companyRef.findOneAndUpdate({"id":id},{"description":description,"updated_at":Date.now()});
         //for testing purpose only  :image==null?"":await companyRef.findOneAndUpdate({"id":id},{"image":image});
         res.status(200).json({"msg":"Success"});
     }else{

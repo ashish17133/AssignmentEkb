@@ -56,7 +56,8 @@ async function putData(req,res){
     console.log("id"+id+" and title:"+title);
     let data=await companyCatRef.findOne({"id":id});
     if(data!=null){
-    companyCatRef.findOneAndUpdate({"id":id},{"title":title}).then(()=>{
+        //latest updated date will be added
+    companyCatRef.findOneAndUpdate({"id":id},{"title":title,"updated_at":Date.now()}).then(()=>{
         res.status(200).json({"msg":"Data updated"});
         res.end();
     }).catch((e)=>{
