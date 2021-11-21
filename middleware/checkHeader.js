@@ -1,6 +1,7 @@
 function checkHeader(req,res,next){
     try {
         const apiKey=req.headers["api_key"];
+        //API_KEY directly used as this is assignment otherwise we have to save them in .dotenv file for 
         if(apiKey==="BA673A414C3B44C98478BB5CF10A0F832574090C"){
             console.log("Valid api key");
             next();
