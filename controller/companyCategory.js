@@ -1,7 +1,11 @@
 const {companyCatRef}=require("../database/databaseCompany");
 
 async function getAllData(req,res){
-        let data=await companyCatRef.find({});
+        //pagination implementation goes here
+        const page=Number(req.query.page)||1;//incase page sent in 0
+        const limit=Number(req.query.limit)||10;//incase if limit send is 0
+        const skip=(page-1)*limit;
+        let data=await companyCatRef.find({}).skip(skip).limit(limit);
         res.status(200).json({
             "msg":"success",
             "data":data
