@@ -40,15 +40,17 @@ app.use("/api/company",checkHeader,routeCompany.route);
 
 app.get("/",checkHeader,(req,res)=>{
 
-    res.status(200).send("This is homepage");
+    res.status(200).json({"msg":"Ekbana assignment homepage"});
 });
+
 app.use("*",urlError);
+
 mongoose.connect(dbURL).then(()=>{
     console.log("Database connection completed");
     server();
     
 }).catch((e)=>{
-    console.log("Database connection error has occured"+e);
+    console.log("Database connection error has occured:"+e);
 });
 
 

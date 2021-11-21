@@ -133,7 +133,7 @@ async function deleteData(req,res){
     try{
           //file path logic implementation
     let pathString= (__dirname).split("\\");
-    pathString[pathString.length-1]=data["image"];
+    pathString[pathString.length-1]=data["image"];//we need to find root directory so
     
     await companyRef.deleteOne({"id":id});
     fs.unlinkSync(pathString.join("\\"));///removing file
